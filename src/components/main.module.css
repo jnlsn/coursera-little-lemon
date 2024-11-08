@@ -1,0 +1,44 @@
+.main {
+  background: white;
+  padding: 4rem 0;
+
+  & img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  & a {
+    color: black;
+    background: goldenrod;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+  }
+}
+
+.container {
+  display: grid;
+  max-width: 50rem;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+
+  & h1,
+  & p {
+    margin: 0;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    grid-template-columns: 2fr 1fr;
+  }
+}
