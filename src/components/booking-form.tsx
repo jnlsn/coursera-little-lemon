@@ -6,18 +6,20 @@ import { useNavigate } from "react-router-dom";
 interface BookingFormProps {
   availableTimes: string[];
   onDateChange: React.Dispatch<string>;
+  onSuccess: () => void;
 }
 
 export const BookingForm = ({
   availableTimes: times,
   onDateChange,
+  onSuccess,
 }: BookingFormProps) => {
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
   const [formValues, setFormValues] = useState({
-    date: "",
-    time: "",
+    date: new Date().toString(),
+    time: times[0],
     guests: "",
-    occasion: "",
+    occasion: "birthday",
   });
 
   const handleChange = (
@@ -35,9 +37,20 @@ export const BookingForm = ({
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
+        const empty = Object.entries(formValues)
+          .filter(([, val]) => !val)
+          .map(([key]) => key);
+        if (empty.length > 0) {
+          setMessage(
+            "Please fill out the following fields: " + empty.join(", ")
+          );
+          return;
+        }
         const success = submitAPI(formValues);
         if (success) {
-          navigate("/booking-confirmed");
+          onSuccess();
+        } else {
+          setMessage("Something went wrong.");
         }
       }}
     >
@@ -80,9 +93,14 @@ export const BookingForm = ({
         value={formValues.occasion}
         id="occasion"
       >
-        <option>Birthday</option>
-        <option>Anniversary</option>
+        <option value="birthday">Birthday</option>
+        <option value="anniversary">Anniversary</option>
       </select>
+      {Boolean(message) && (
+        <p role="alert" aria-live="assertive">
+          {message}
+        </p>
+      )}
       <button type="submit">Make Reservation</button>
     </form>
   );
