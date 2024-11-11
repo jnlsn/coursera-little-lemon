@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  & select,
+  & input {
+    padding: 0.5rem;
+    border: 1px solid black;
+    background: white;
+  }
+
+  & button {
+    background-color: goldenrod;
+    color: black;
+    padding: 0.5rem;
+    border: none;
+  }
+}
